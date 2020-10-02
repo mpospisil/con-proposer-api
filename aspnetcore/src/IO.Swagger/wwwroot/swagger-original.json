@@ -1,0 +1,149 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "connection-browser",
+    "description" : "Connection browser API",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/martin.pospisil/connection-browser/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "user",
+    "description" : "Operations related to the current user"
+  } ],
+  "paths" : {
+    "/user" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Get data about the current user",
+        "operationId" : "getUser",
+        "responses" : {
+          "200" : {
+            "description" : "Data about the current user",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserMetaData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/solutionsets" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Get all available solution sets for the current user",
+        "operationId" : "getSolutionSet",
+        "responses" : {
+          "200" : {
+            "description" : "A list of users",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/responses/SolutionSetsOk"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unknown user"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "SolutionItemMetaData" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "unique identifier of this solution item"
+          }
+        },
+        "description" : "information"
+      },
+      "SolutionSetMetaData" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "unique identifier of this solution set",
+            "format" : "uuid"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "name of the dataset"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "user friendly description of the solution set"
+          }
+        },
+        "description" : "information about solution set (a group of solution items)"
+      },
+      "UserMetaData" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "name of the user"
+          },
+          "role" : {
+            "type" : "string",
+            "description" : "role of the user",
+            "enum" : [ "engineer", "leadengineer", "isadministrator" ]
+          }
+        },
+        "description" : "information about the user",
+        "example" : {
+          "role" : "engineer",
+          "name" : "name"
+        }
+      }
+    },
+    "responses" : {
+      "SolutionSetsOk" : {
+        "description" : "Array of Solution sets.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/SolutionSetMetaData"
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "offsetParam" : {
+        "name" : "offset",
+        "in" : "query",
+        "description" : "Number of items to skip before returning the results.",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "minimum" : 0,
+          "type" : "integer",
+          "format" : "int32",
+          "default" : 0
+        }
+      }
+    },
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}
