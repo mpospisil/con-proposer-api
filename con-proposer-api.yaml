@@ -96,6 +96,10 @@ components:
       schema:
         $ref: '#/components/schemas/ConDesignItemId'
 
+      
+  #-------------------------------
+  # Reusable operation responses
+  #-------------------------------
   responses:
     Unauthorized:      # HTTP Error 401 Can be referenced via '#/components/responses/Unauthorized'
       description: Unauthorized user
@@ -127,7 +131,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
-  /conDesignSet:
+  /conDesignSets:
     get:
       tags:
         - conDesignSet        
@@ -147,7 +151,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 
         '404':
-          $ref: '#/components/responses/NotFound'         
+          $ref: '#/components/responses/NotFound'
+         
           
   /conDesignItems:
     get:
