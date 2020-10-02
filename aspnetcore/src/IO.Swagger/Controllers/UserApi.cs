@@ -28,52 +28,29 @@ namespace IO.Swagger.Controllers
     public class UserApiController : ControllerBase
     { 
         /// <summary>
-        /// Get all available solution sets for the current user
+        /// Get information about the current user
         /// </summary>
-        /// <response code="200">A list of users</response>
-        /// <response code="403">Unknown user</response>
+        /// <response code="200">information about the current user</response>
+        /// <response code="401">Unauthorized user</response>
         [HttpGet]
-        [Route("/martin.pospisil/connection-browser/1.0.0/user/solutionsets")]
-        [Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
-        [ValidateModelState]
-        [SwaggerOperation("GetSolutionSet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(ComponentsresponsesSolutionSetsOk), description: "A list of users")]
-        public virtual IActionResult GetSolutionSet()
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(ComponentsresponsesSolutionSetsOk));
-
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403);
-            string exampleJson = null;
-            exampleJson = "\"{}\"";
-            
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<ComponentsresponsesSolutionSetsOk>(exampleJson)
-                        : default(ComponentsresponsesSolutionSetsOk);            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
-
-        /// <summary>
-        /// Get data about the current user
-        /// </summary>
-        /// <response code="200">Data about the current user</response>
-        [HttpGet]
-        [Route("/martin.pospisil/connection-browser/1.0.0/user")]
+        [Route("/martin.pospisil/connection-proposer-api/1.0.0/user")]
         [Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
         [ValidateModelState]
         [SwaggerOperation("GetUser")]
-        [SwaggerResponse(statusCode: 200, type: typeof(UserMetaData), description: "Data about the current user")]
+        [SwaggerResponse(statusCode: 200, type: typeof(User), description: "information about the current user")]
         public virtual IActionResult GetUser()
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(UserMetaData));
+            // return StatusCode(200, default(User));
+
+            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(401);
             string exampleJson = null;
             exampleJson = "{\n  \"role\" : \"engineer\",\n  \"name\" : \"name\"\n}";
             
                         var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<UserMetaData>(exampleJson)
-                        : default(UserMetaData);            //TODO: Change the data returned
+                        ? JsonConvert.DeserializeObject<User>(exampleJson)
+                        : default(User);            //TODO: Change the data returned
             return new ObjectResult(example);
         }
     }

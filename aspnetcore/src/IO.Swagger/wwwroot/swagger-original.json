@@ -6,6 +6,9 @@
     "version" : "1.0.0"
   },
   "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/martin.pospisil/connection-proposer-api/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  }, {
     "url" : "https://virtserver.swaggerhub.com/martin.pospisil/connection-browser/1.0.0",
     "description" : "SwaggerHub API Auto Mocking"
   } ],
@@ -13,47 +16,298 @@
     "bearerAuth" : [ ]
   } ],
   "tags" : [ {
-    "name" : "user",
-    "description" : "Operations related to the current user"
+    "name" : "User",
+    "description" : "Operations related to users"
+  }, {
+    "name" : "Connection-Design-Set",
+    "description" : "Operations related to connection design sets"
+  }, {
+    "name" : "Connection-Design-Item",
+    "description" : "Operations related to connection design items"
   } ],
   "paths" : {
     "/user" : {
       "get" : {
-        "tags" : [ "user" ],
-        "summary" : "Get data about the current user",
+        "tags" : [ "User" ],
+        "summary" : "Get information about the current user",
         "operationId" : "getUser",
         "responses" : {
           "200" : {
-            "description" : "Data about the current user",
+            "description" : "information about the current user",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/UserMetaData"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user/solutionsets" : {
-      "get" : {
-        "tags" : [ "user" ],
-        "summary" : "Get all available solution sets for the current user",
-        "operationId" : "getSolutionSet",
-        "responses" : {
-          "200" : {
-            "description" : "A list of users",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/responses/SolutionSetsOk"
+                  "$ref" : "#/components/schemas/User"
                 }
               }
             }
           },
-          "403" : {
-            "description" : "Unknown user"
+          "401" : {
+            "description" : "Unauthorized user"
+          }
+        }
+      }
+    },
+    "/design-sets" : {
+      "get" : {
+        "tags" : [ "Connection-Design-Set" ],
+        "summary" : "Get all available connection design sets for the current user",
+        "operationId" : "getConDesignSets",
+        "responses" : {
+          "200" : {
+            "description" : "A list of available connection design sets for the user",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ConDesignSet"
+                  },
+                  "x-content-type" : "application/json"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized user"
+          },
+          "404" : {
+            "description" : "The specified resource was not found"
+          }
+        }
+      }
+    },
+    "/design-set" : {
+      "get" : {
+        "tags" : [ "Connection-Design-Set" ],
+        "summary" : "Get single connection design set by its unique id",
+        "operationId" : "getConDesignSet",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "The ID of the required connection design set",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/ConDesignSetId"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Information about connection design set",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConDesignSet"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized user"
+          },
+          "404" : {
+            "description" : "The specified resource was not found"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Connection-Design-Set" ],
+        "summary" : "Create or modify the connection design set",
+        "description" : "Create or modify the connection design set and return the updated instance from the database",
+        "operationId" : "createConDesignSet",
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/ConDesignSetBody"
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Information about the modified connection design set",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConDesignSet"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Unauthorized user"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Connection-Design-Set" ],
+        "summary" : "Delete the connection design set",
+        "description" : "Delete the single connection design set which is defined by passed its unique id",
+        "operationId" : "deleteConDesignSet",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "The ID of the required connection design set",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/ConDesignSetId"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Unauthorized user"
+          },
+          "404" : {
+            "description" : "The specified resource was not found"
+          }
+        }
+      }
+    },
+    "/design-items" : {
+      "get" : {
+        "tags" : [ "Connection-Design-Item" ],
+        "summary" : "Get all connection design items from the given connection design set",
+        "operationId" : "getConDesignItems",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "The ID of the required connection design set",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/ConDesignSetId"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A list of all connection design items from the given connection design set",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ConDesignItem"
+                  },
+                  "x-content-type" : "application/json"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized user"
+          },
+          "404" : {
+            "description" : "The specified resource was not found"
+          }
+        }
+      }
+    },
+    "/project-publish" : {
+      "get" : {
+        "tags" : [ "Connection-Design-Item" ],
+        "summary" : "Publish connection design items",
+        "description" : "Publish selected connection design items from Idea connection project to the given connection design set",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/design-item" : {
+      "get" : {
+        "tags" : [ "Connection-Design-Item" ],
+        "summary" : "Get the connection design item",
+        "description" : "Get data of the single design item which is given by its unique id",
+        "operationId" : "getConDesignItem",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "The ID of the required connection design item",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/ConDesignItemId"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Information about the connection design item",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConDesignItem"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized user"
+          },
+          "404" : {
+            "description" : "The specified resource was not found"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Connection-Design-Item" ],
+        "summary" : "Create or modify the connection design item",
+        "description" : "Create or modify the connection design item and return the updated instance from the database",
+        "operationId" : "postConDesignItem",
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/ConDesignItemBody"
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Information about modified connection design item",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConDesignItem"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Unauthorized user"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Connection-Design-Item" ],
+        "summary" : "Delete the connection design item",
+        "description" : "Delete the single design item which is given by its unique id",
+        "operationId" : "deleteConDesignItem",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "The ID of the required connection design item",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/ConDesignItemId"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Unauthorized user"
+          },
+          "404" : {
+            "description" : "The specified resource was not found"
           }
         }
       }
@@ -61,36 +315,12 @@
   },
   "components" : {
     "schemas" : {
-      "SolutionItemMetaData" : {
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "description" : "unique identifier of this solution item"
-          }
-        },
-        "description" : "information"
+      "UserRole" : {
+        "type" : "string",
+        "description" : "role of the user",
+        "enum" : [ "engineer", "lead-engineer", "is-administrator" ]
       },
-      "SolutionSetMetaData" : {
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "description" : "unique identifier of this solution set",
-            "format" : "uuid"
-          },
-          "name" : {
-            "type" : "string",
-            "description" : "name of the dataset"
-          },
-          "description" : {
-            "type" : "string",
-            "description" : "user friendly description of the solution set"
-          }
-        },
-        "description" : "information about solution set (a group of solution items)"
-      },
-      "UserMetaData" : {
+      "User" : {
         "type" : "object",
         "properties" : {
           "name" : {
@@ -98,9 +328,7 @@
             "description" : "name of the user"
           },
           "role" : {
-            "type" : "string",
-            "description" : "role of the user",
-            "enum" : [ "engineer", "leadengineer", "isadministrator" ]
+            "$ref" : "#/components/schemas/UserRole"
           }
         },
         "description" : "information about the user",
@@ -108,34 +336,116 @@
           "role" : "engineer",
           "name" : "name"
         }
+      },
+      "ConDesignSetId" : {
+        "type" : "string",
+        "description" : "The unique identifier of the connection design set",
+        "format" : "uuid"
+      },
+      "ConDesignItemId" : {
+        "type" : "string",
+        "description" : "The unique identifier of the connection design item",
+        "format" : "uuid"
+      },
+      "ConDesignSet" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "#/components/schemas/ConDesignSetId"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "name of the dataset"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "user friendly description of the connection design set"
+          },
+          "owner" : {
+            "$ref" : "#/components/schemas/UserRole"
+          }
+        },
+        "description" : "information about the connection design set (a group of connection design items)",
+        "example" : {
+          "owner" : "engineer",
+          "name" : "name",
+          "description" : "description",
+          "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+        }
+      },
+      "ConDesignItem" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "#/components/schemas/ConDesignItemId"
+          }
+        },
+        "description" : "information",
+        "example" : {
+          "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+        }
       }
     },
     "responses" : {
-      "SolutionSetsOk" : {
-        "description" : "Array of Solution sets.",
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/SolutionSetMetaData"
-            }
-          }
-        }
+      "BadRequest" : {
+        "description" : "Bad Request"
+      },
+      "Unauthorized" : {
+        "description" : "Unauthorized user"
+      },
+      "NotFound" : {
+        "description" : "The specified resource was not found"
+      },
+      "InternalError" : {
+        "description" : "Internal Server Error"
       }
     },
     "parameters" : {
-      "offsetParam" : {
-        "name" : "offset",
+      "DesignSetIdParam" : {
+        "name" : "id",
         "in" : "query",
-        "description" : "Number of items to skip before returning the results.",
-        "required" : false,
+        "description" : "The ID of the required connection design set",
+        "required" : true,
         "style" : "form",
         "explode" : true,
         "schema" : {
-          "minimum" : 0,
-          "type" : "integer",
-          "format" : "int32",
-          "default" : 0
+          "$ref" : "#/components/schemas/ConDesignSetId"
         }
+      },
+      "DesignItemIdParam" : {
+        "name" : "id",
+        "in" : "query",
+        "description" : "The ID of the required connection design item",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "$ref" : "#/components/schemas/ConDesignItemId"
+        }
+      }
+    },
+    "requestBodies" : {
+      "ConDesignSetBody" : {
+        "description" : "An object containing connection design set information",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ConDesignSet"
+            }
+          }
+        },
+        "required" : true
+      },
+      "ConDesignItemBody" : {
+        "description" : "An object containing connection design item information",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ConDesignItem"
+            }
+          }
+        },
+        "required" : true
       }
     },
     "securitySchemes" : {
