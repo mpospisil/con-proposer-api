@@ -112,6 +112,9 @@ components:
   # Reusable operation responses
   #-------------------------------
   responses:
+    BadRequest:      # HTTP Error 400 Can be referenced via '#/components/responses/BadRequest'
+      description: Bad Request
+
     Unauthorized:      # HTTP Error 401 Can be referenced via '#/components/responses/Unauthorized'
       description: Unauthorized user
 
@@ -201,7 +204,9 @@ paths:
             application/json:
               schema:
                 $ref : '#/components/schemas/ConDesignSet' 
-
+        '400':
+          $ref: '#/components/responses/BadRequest'
+          
         '401':
           $ref: '#/components/responses/Unauthorized'               
                
