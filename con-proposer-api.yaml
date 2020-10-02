@@ -15,7 +15,11 @@ servers:
     url: https://virtserver.swaggerhub.com/martin.pospisil/connection-browser/1.0.0
 tags:
   - name: user
-    description: Operations related to the current user
+    description: Operations related to users
+  - name: conDesignSet
+    description: Operations related to connection design sets
+  - name: conDesignItem
+    description: Operations related to connection design set items
 
 # Reusable path, query, header and cookie parameters
 components:
@@ -105,10 +109,10 @@ paths:
                 $ref : '#/components/schemas/User'     
 
 
-  /user/conDesignSets:
+  /conDesignSet:
     get:
       tags:
-        - user
+        - conDesignSet        
       summary: Get all available connection design sets for the current user
       operationId: getConDesignSets
       responses:
@@ -120,6 +124,25 @@ paths:
                 type: array
                 items:
                   $ref : '#/components/schemas/ConDesignSet'       
+
+        '403':
+          description: Unknown user
+          
+  /conDesignItem:
+    get:
+      tags:
+        - conDesignItem        
+      summary: Get all connection design items from the given design set
+      operationId: getConDesignItems
+      responses:
+        '200':
+          description: A list of all connection design items from the given design set
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/ConDesignItem'       
 
         '403':
           description: Unknown user
