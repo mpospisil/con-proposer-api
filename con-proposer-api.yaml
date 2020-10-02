@@ -94,12 +94,21 @@ components:
       description: The ID of the required connection design set
       required: true
       schema:
+        $ref: '#/components/schemas/ConDesignSetId'
+        
+    DesignItemIdParam:      # Can be referenced via '#/components/parameters/DesignItemIdParam'
+      name: id
+      in: query
+      description: The ID of the required connection design item
+      required: true
+      schema:
         $ref: '#/components/schemas/ConDesignItemId'
 
   #-------------------------------
   # Reusable requestBodies
   #-------------------------------
   requestBodies:
+
     ConDesignSetBody:      # Can be referenced via '#/components/requestBodies/ConDesignSetBody'
       description: A JSON object containing connection design set information
       required: true
@@ -107,7 +116,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ConDesignSet'
-      
+
+    ConDesignItemBody:      # Can be referenced via '#/components/requestBodies/ConDesignItemBody'
+      description: A JSON object containing connection design item information
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConDesignItem'
+
   #-------------------------------
   # Reusable operation responses
   #-------------------------------
@@ -199,14 +216,14 @@ paths:
         $ref: '#/components/requestBodies/ConDesignSetBody'
       responses:
         '200':
-          description: Information about connection design set
+          description: Information about the modified connection design set
           content:
             application/json:
               schema:
                 $ref : '#/components/schemas/ConDesignSet' 
         '400':
           $ref: '#/components/responses/BadRequest'
-          
+
         '401':
           $ref: '#/components/responses/Unauthorized'               
                
@@ -233,3 +250,46 @@ paths:
 
         '404':
           $ref: '#/components/responses/NotFound'
+
+  /conDesignItem:
+    get:
+      summary: Get single connection design item 
+      tags:
+        - conDesignItem        
+      operationId: getConDesignItem
+      parameters:
+        - $ref: '#/components/parameters/DesignItemIdParam'
+      responses:
+        '200':
+          description: Information about the connection design item
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/ConDesignItem'      
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      summary: Create or modify the connection design item
+      description: Create or modify the connection design item and return the updated instance from the database
+      tags:
+        - conDesignItem        
+      operationId: postConDesignItem
+      requestBody:
+        $ref: '#/components/requestBodies/ConDesignItemBody'
+      responses:
+        '200':
+          description: Information about modified connection design item
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/ConDesignItem' 
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'  
