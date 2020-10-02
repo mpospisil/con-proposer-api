@@ -88,7 +88,7 @@ components:
   # Reusable operation parameters
   #-------------------------------
   parameters:
-    designSetIdParam:      # Can be referenced via '#/components/parameters/designSetIdParam'
+    DesignSetIdParam:      # Can be referenced via '#/components/parameters/DesignSetIdParam'
       name: id
       in: query
       description: The ID of the required connection design set
@@ -96,6 +96,17 @@ components:
       schema:
         $ref: '#/components/schemas/ConDesignItemId'
 
+  #-------------------------------
+  # Reusable requestBodies
+  #-------------------------------
+  requestBodies:
+    ConDesignSetBody:      # Can be referenced via '#/components/requestBodies/ConDesignSetBody'
+      description: A JSON object containing connection design set information
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConDesignSet'
       
   #-------------------------------
   # Reusable operation responses
@@ -152,8 +163,48 @@ paths:
 
         '404':
           $ref: '#/components/responses/NotFound'
-         
-          
+
+  /conDesignSet:
+    get:
+      summary: Get single connection design set by its unique id
+      tags:
+        - conDesignSet        
+      operationId: getConDesignSet
+      parameters:
+        - $ref: '#/components/parameters/DesignSetIdParam'
+      responses:
+        '200':
+          description: Information about connection design set
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/ConDesignSet'      
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      summary: Create or modify the connection design set
+      description: Create or modify the connection design set and return the updated instance from the database
+      tags:
+        - conDesignSet        
+      operationId: createConDesignSet
+      requestBody:
+        $ref: '#/components/requestBodies/ConDesignSetBody'
+      responses:
+        '200':
+          description: Information about connection design set
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/ConDesignSet' 
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'               
+               
   /conDesignItems:
     get:
       tags:
@@ -161,7 +212,7 @@ paths:
       summary: Get all connection design items from the given connection design set
       operationId: getConDesignItems
       parameters:
-        - $ref: '#/components/parameters/designSetIdParam'        
+        - $ref: '#/components/parameters/DesignSetIdParam'        
       responses:
         '200':
           description: A list of all connection design items from the given connection design set
