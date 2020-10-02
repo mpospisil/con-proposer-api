@@ -17,11 +17,11 @@ servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/martin.pospisil/connection-browser/1.0.0
 tags:
-  - name: user
+  - name: User
     description: Operations related to users
-  - name: conDesignSet
+  - name: Connection-Design-Set
     description: Operations related to connection design sets
-  - name: conDesignItem
+  - name: Connection-Design-Item
     description: Operations related to connection design items
 
 # Reusable path, query, header and cookie parameters
@@ -110,7 +110,7 @@ components:
   requestBodies:
 
     ConDesignSetBody:      # Can be referenced via '#/components/requestBodies/ConDesignSetBody'
-      description: A JSON object containing connection design set information
+      description: An object containing connection design set information
       required: true
       content:
         application/json:
@@ -118,7 +118,7 @@ components:
             $ref: '#/components/schemas/ConDesignSet'
 
     ConDesignItemBody:      # Can be referenced via '#/components/requestBodies/ConDesignItemBody'
-      description: A JSON object containing connection design item information
+      description: An object containing connection design item information
       required: true
       content:
         application/json:
@@ -148,7 +148,7 @@ paths:
   /user:
     get:
       tags:
-        - user
+        - User
       summary: Get information about the current user
       operationId: getUser
       responses:
@@ -162,10 +162,10 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
-  /conDesignSets:
+  /design-sets:
     get:
       tags:
-        - conDesignSet        
+        - Connection-Design-Set        
       summary: Get all available connection design sets for the current user
       operationId: getConDesignSets
       responses:
@@ -184,11 +184,11 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
-  /conDesignSet:
+  /design-set:
     get:
       summary: Get single connection design set by its unique id
       tags:
-        - conDesignSet        
+        - Connection-Design-Set        
       operationId: getConDesignSet
       parameters:
         - $ref: '#/components/parameters/DesignSetIdParam'
@@ -210,7 +210,7 @@ paths:
       summary: Delete the connection design set
       description: Delete the single connection design set which is defined by passed its unique id
       tags:
-        - conDesignSet        
+        - Connection-Design-Set        
       operationId: deleteConDesignSet
       parameters:
         - $ref: '#/components/parameters/DesignSetIdParam'      
@@ -228,7 +228,7 @@ paths:
       summary: Create or modify the connection design set
       description: Create or modify the connection design set and return the updated instance from the database
       tags:
-        - conDesignSet        
+        - Connection-Design-Set        
       operationId: createConDesignSet
       requestBody:
         $ref: '#/components/requestBodies/ConDesignSetBody'
@@ -246,10 +246,10 @@ paths:
           $ref: '#/components/responses/Unauthorized'
              
                
-  /conDesignItems:
+  /design-items:
     get:
       tags:
-        - conDesignItem        
+        -  Connection-Design-Item        
       summary: Get all connection design items from the given connection design set
       operationId: getConDesignItems
       parameters:
@@ -270,12 +270,23 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
-  /conDesignItem:
+
+  /project-publish:
+    get:
+      tags:
+        - Connection-Design-Item     
+      summary: Publish connection design items
+      description: Publish selected connection design items from Idea connection project to the given connection design set
+      responses:
+        '200':
+          description: OK 
+
+  /design-item:
     get:
       summary: Get the connection design item
       description: Get data of the single design item which is given by its unique id
       tags:
-        - conDesignItem        
+        - Connection-Design-Item        
       operationId: getConDesignItem
       parameters:
         - $ref: '#/components/parameters/DesignItemIdParam'
@@ -297,7 +308,7 @@ paths:
       summary: Delete the connection design item
       description: Delete the single design item which is given by its unique id
       tags:
-        - conDesignItem        
+        - Connection-Design-Item        
       operationId: deleteConDesignItem
       parameters:
         - $ref: '#/components/parameters/DesignItemIdParam'
@@ -310,12 +321,12 @@ paths:
 
         '404':
           $ref: '#/components/responses/NotFound'
-          
+
     post:
       summary: Create or modify the connection design item
       description: Create or modify the connection design item and return the updated instance from the database
       tags:
-        - conDesignItem        
+        - Connection-Design-Item        
       operationId: postConDesignItem
       requestBody:
         $ref: '#/components/requestBodies/ConDesignItemBody'
@@ -331,4 +342,3 @@ paths:
 
         '401':
           $ref: '#/components/responses/Unauthorized'
-  
