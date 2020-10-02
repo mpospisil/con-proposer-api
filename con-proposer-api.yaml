@@ -34,6 +34,16 @@ components:
         - lead-engineer
         - is-administrator
       description: role of the user   
+
+    User:          # Can be referenced as '#/components/schemas/User'
+      type: object
+      description: information about the user
+      properties:
+        name:
+          type: string
+          description: name of the user
+        role:
+          $ref: '#/components/schemas/UserRole'    
     
     ConDesignSet:     # Can be referenced as '#/components/schemas/ConDesignSet'
       type: object
@@ -59,16 +69,6 @@ components:
         id:
           type: string
           description: unique identifier of this connection design item        
-          
-    User:          # Can be referenced as '#/components/schemas/User'
-      type: object
-      description: information about the user
-      properties:
-        name:
-          type: string
-          description: name of the user
-        role:
-          $ref: '#/components/schemas/UserRole'
       
   #-------------------------------
   # Reusable operation parameters
