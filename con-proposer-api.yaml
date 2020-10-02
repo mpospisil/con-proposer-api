@@ -206,6 +206,24 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
+    delete:
+      summary: Delete the connection design set
+      description: Delete the single connection design set which is defined by passed its unique id
+      tags:
+        - conDesignSet        
+      operationId: deleteConDesignSet
+      parameters:
+        - $ref: '#/components/parameters/DesignSetIdParam'      
+      responses:
+        '200':
+          description: OK
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
     post:
       summary: Create or modify the connection design set
       description: Create or modify the connection design set and return the updated instance from the database
@@ -225,7 +243,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
 
         '401':
-          $ref: '#/components/responses/Unauthorized'               
+          $ref: '#/components/responses/Unauthorized'
+             
                
   /conDesignItems:
     get:
@@ -253,7 +272,8 @@ paths:
 
   /conDesignItem:
     get:
-      summary: Get single connection design item 
+      summary: Get the connection design item
+      description: Get data of the single design item which is given by its unique id
       tags:
         - conDesignItem        
       operationId: getConDesignItem
@@ -273,6 +293,24 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
+    delete:
+      summary: Delete the connection design item
+      description: Delete the single design item which is given by its unique id
+      tags:
+        - conDesignItem        
+      operationId: deleteConDesignItem
+      parameters:
+        - $ref: '#/components/parameters/DesignItemIdParam'
+      responses:
+        '200':
+          description: OK
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+          
     post:
       summary: Create or modify the connection design item
       description: Create or modify the connection design item and return the updated instance from the database
@@ -292,4 +330,5 @@ paths:
           $ref: '#/components/responses/BadRequest'
 
         '401':
-          $ref: '#/components/responses/Unauthorized'  
+          $ref: '#/components/responses/Unauthorized'
+  
