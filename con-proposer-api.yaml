@@ -1,3 +1,6 @@
+# Swagger Coding Style Guidelines
+# https://github.com/watson-developer-cloud/api-guidelines/blob/master/swagger-coding-style.md#model-names
+
 openapi: 3.0.0
 info:
   version: 1.0.0
@@ -31,15 +34,7 @@ components:
         - lead-engineer
         - is-administrator
       description: role of the user   
-  
-    ConDesignItem:     # Can be referenced as '#/components/schemas/ConDesignItem'
-      type: object
-      description: information    
-      properties:
-        id:
-          type: string
-          description: unique identifier of this connection design item 
-  
+    
     ConDesignSet:     # Can be referenced as '#/components/schemas/ConDesignSet'
       type: object
       description: information about the connection design set (a group of connection design items)
@@ -56,6 +51,14 @@ components:
           description: user friendly description of the connection design set
         owner:
           $ref: '#/components/schemas/UserRole'
+
+    ConDesignItem:     # Can be referenced as '#/components/schemas/ConDesignItem'
+      type: object
+      description: information    
+      properties:
+        id:
+          type: string
+          description: unique identifier of this connection design item        
           
     User:          # Can be referenced as '#/components/schemas/User'
       type: object
@@ -91,23 +94,23 @@ paths:
     get:
       tags:
         - user
-      summary: Get data about the current user
+      summary: Get information about the current user
       operationId: getUser
       responses:
         '200':
-          description: Data about the current user
+          description: information about the current user
           content:
             application/json:
               schema:
                 $ref : '#/components/schemas/User'     
 
 
-  /user/ConDesignSets:
+  /user/conDesignSets:
     get:
       tags:
         - user
       summary: Get all available connection design sets for the current user
-      operationId: getConDesignSet
+      operationId: getConDesignSets
       responses:
         '200':
           description: A list of available connection design sets for the user
