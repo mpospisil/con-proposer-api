@@ -1,7 +1,7 @@
 /*
- * connection-browser
+ * connection-proposer-api
  *
- * Connection browser API
+ * Connection proposer API
  *
  * OpenAPI spec version: 1.0.0
  * 
@@ -76,8 +76,8 @@ namespace IO.Swagger
                     c.SwaggerDoc("1.0.0", new OpenApiInfo
                     {
                         Version = "1.0.0",
-                        Title = "connection-browser",
-                        Description = "connection-browser (ASP.NET Core 3.0)",
+                        Title = "connection-proposer-api",
+                        Description = "connection-proposer-api (ASP.NET Core 3.0)",
                         Contact = new OpenApiContact()
                         {
                            Name = "Swagger Codegen Contributors",
@@ -116,10 +116,10 @@ namespace IO.Swagger
             app.UseSwaggerUI(c =>
             {
                 //TODO: Either use the SwaggerGen generated Swagger contract (generated from C# classes)
-                c.SwaggerEndpoint("/swagger/1.0.0/swagger.json", "connection-browser");
+                c.SwaggerEndpoint("/swagger/1.0.0/swagger.json", "connection-proposer-api");
 
                 //TODO: Or alternatively use the original Swagger contract that's included in the static files
-                // c.SwaggerEndpoint("/swagger-original.json", "connection-browser Original");
+                // c.SwaggerEndpoint("/swagger-original.json", "connection-proposer-api Original");
             });
 
             //TODO: Use Https Redirection

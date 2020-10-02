@@ -1,6 +1,6 @@
 # IO.Swagger - ASP.NET Core 2.0 Server
 
-Connection browser API
+Connection proposer API
 
 ## Run
 

@@ -1,7 +1,7 @@
 /*
- * connection-browser
+ * connection-proposer-api
  *
- * Connection browser API
+ * Connection proposer API
  *
  * OpenAPI spec version: 1.0.0
  * 
