@@ -1,0 +1,122 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: connection-proposer-api
+  description: Connection proposer API
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/martin.pospisil/connection-proposer-api/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/martin.pospisil/connection-browser/1.0.0
+tags:
+  - name: user
+    description: Operations related to the current user
+
+# Reusable path, query, header and cookie parameters
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+      
+  schemas:
+    UserRole:                  # Can be referenced as '#/components/schemas/UserRole'
+      type: string
+      enum:
+        - engineer
+        - lead-engineer
+        - is-administrator
+      description: role of the user   
+  
+    ConDesignItem:     # Can be referenced as '#/components/schemas/ConDesignItem'
+      type: object
+      description: information    
+      properties:
+        id:
+          type: string
+          description: unique identifier of this connection design item 
+  
+    ConDesignSet:     # Can be referenced as '#/components/schemas/ConDesignSet'
+      type: object
+      description: information about the connection design set (a group of connection design items)
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: unique identifier of this connection design set
+        name:
+          type: string
+          description: name of the dataset
+        description:
+          type: string
+          description: user friendly description of the connection design set
+        owner:
+          $ref: '#/components/schemas/UserRole'
+          
+    User:          # Can be referenced as '#/components/schemas/User'
+      type: object
+      description: information about the user
+      properties:
+        name:
+          type: string
+          description: name of the user
+        role:
+          $ref: '#/components/schemas/UserRole'
+      
+  #-------------------------------
+  # Reusable operation parameters
+  #-------------------------------
+  parameters:
+    offsetParam:      # Can be referenced via '#/components/parameters/offsetParam'
+      name: offset
+      in: query
+      description: Number of items to skip before returning the results.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        default: 0
+
+
+security:
+  - bearerAuth: []    
+
+paths:
+  /user:
+    get:
+      tags:
+        - user
+      summary: Get data about the current user
+      operationId: getUser
+      responses:
+        '200':
+          description: Data about the current user
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/User'     
+
+
+  /user/ConDesignSets:
+    get:
+      tags:
+        - user
+      summary: Get all available connection design sets for the current user
+      operationId: getConDesignSet
+      responses:
+        '200':
+          description: A list of available connection design sets for the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/ConDesignSet'       
+
+        '403':
+          description: Unknown user
