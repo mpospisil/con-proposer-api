@@ -1,6 +1,9 @@
 # Swagger Coding Style Guidelines
 # https://github.com/watson-developer-cloud/api-guidelines/blob/master/swagger-coding-style.md#model-names
 
+# HTTP codes
+# https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+
 openapi: 3.0.0
 info:
   version: 1.0.0
@@ -93,6 +96,16 @@ components:
       schema:
         $ref: '#/components/schemas/ConDesignItemId'
 
+  responses:
+    Unauthorized:      # HTTP Error 401 Can be referenced via '#/components/responses/Unauthorized'
+      description: Unauthorized user
+
+    NotFound:      # HTTP Error 404 Can be referenced via '#/components/responses/NotFound'
+      description: The specified resource was not found
+
+    InternalError:      # HTTP rerror 500 Can be referenced via '#/components/responses/InternalError'
+      description: Internal Server Error
+
 security:
   - bearerAuth: []    
 
@@ -111,6 +124,8 @@ paths:
               schema:
                 $ref : '#/components/schemas/User'     
 
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /conDesignSet:
     get:
@@ -128,8 +143,11 @@ paths:
                 items:
                   $ref : '#/components/schemas/ConDesignSet'       
 
-        '403':
-          description: Unknown user
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'         
           
   /conDesignItems:
     get:
@@ -149,5 +167,8 @@ paths:
                 items:
                   $ref : '#/components/schemas/ConDesignItem'       
 
-        '403':
-          description: Unknown user
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
