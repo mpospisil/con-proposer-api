@@ -79,11 +79,32 @@ components:
 
     ConDesignItem:     # Can be referenced as '#/components/schemas/ConDesignItem'
       type: object
-      description: information    
+      description: Connection design item 
       properties:
         id:
            $ref: '#/components/schemas/ConDesignItemId'
-      
+        name:
+          type: string
+          description: name of the dataset
+        description:
+          type: string
+          description: user friendly description of the connection design item
+        version:
+          type: string
+          description: version of the miner which created this connection design item                  
+
+    ConnectionPublisingMetaData:
+      type: object
+      description: Additional meta data about the connection which an user wants to publish to the connection design set
+      properties:
+        connection-id:
+          type: string
+          format: uuid
+          description: The id of the published connection in the ideacon project
+        name:
+          type: string
+          description: The name of the new connection design item
+
   #-------------------------------
   # Reusable operation parameters
   #-------------------------------
