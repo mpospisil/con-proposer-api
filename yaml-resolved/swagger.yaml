@@ -1,0 +1,348 @@
+openapi: 3.0.0
+info:
+  title: connection-proposer-api
+  description: Connection proposer API
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/martin.pospisil/connection-proposer-api/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/martin.pospisil/connection-browser/1.0.0
+  description: SwaggerHub API Auto Mocking
+security:
+- bearerAuth: []
+tags:
+- name: User
+  description: Operations related to users
+- name: Connection-Design-Set
+  description: Operations related to connection design sets
+- name: Connection-Design-Item
+  description: Operations related to connection design items
+paths:
+  /user:
+    get:
+      tags:
+      - User
+      summary: Get information about the current user
+      operationId: getUser
+      responses:
+        "200":
+          description: information about the current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized user
+  /design-sets:
+    get:
+      tags:
+      - Connection-Design-Set
+      summary: Get all available connection design sets for the current user
+      operationId: getConDesignSets
+      responses:
+        "200":
+          description: A list of available connection design sets for the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConDesignSet'
+        "401":
+          description: Unauthorized user
+        "404":
+          description: The specified resource was not found
+  /design-set:
+    get:
+      tags:
+      - Connection-Design-Set
+      summary: Get single connection design set by its unique id
+      operationId: getConDesignSet
+      parameters:
+      - name: id
+        in: query
+        description: The ID of the required connection design set
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/ConDesignSetId'
+      responses:
+        "200":
+          description: Information about connection design set
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConDesignSet'
+        "401":
+          description: Unauthorized user
+        "404":
+          description: The specified resource was not found
+    post:
+      tags:
+      - Connection-Design-Set
+      summary: Create or modify the connection design set
+      description: Create or modify the connection design set and return the updated
+        instance from the database
+      operationId: createConDesignSet
+      requestBody:
+        $ref: '#/components/requestBodies/ConDesignSetBody'
+      responses:
+        "200":
+          description: Information about the modified connection design set
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConDesignSet'
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized user
+    delete:
+      tags:
+      - Connection-Design-Set
+      summary: Delete the connection design set
+      description: Delete the single connection design set which is defined by passed
+        its unique id
+      operationId: deleteConDesignSet
+      parameters:
+      - name: id
+        in: query
+        description: The ID of the required connection design set
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/ConDesignSetId'
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized user
+        "404":
+          description: The specified resource was not found
+  /design-items:
+    get:
+      tags:
+      - Connection-Design-Item
+      summary: Get all connection design items from the given connection design set
+      operationId: getConDesignItems
+      parameters:
+      - name: id
+        in: query
+        description: The ID of the required connection design set
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/ConDesignSetId'
+      responses:
+        "200":
+          description: A list of all connection design items from the given connection
+            design set
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConDesignItem'
+        "401":
+          description: Unauthorized user
+        "404":
+          description: The specified resource was not found
+  /project-publish:
+    get:
+      tags:
+      - Connection-Design-Item
+      summary: Publish connection design items
+      description: Publish selected connection design items from Idea connection project
+        to the given connection design set
+      responses:
+        "200":
+          description: OK
+  /design-item:
+    get:
+      tags:
+      - Connection-Design-Item
+      summary: Get the connection design item
+      description: Get data of the single design item which is given by its unique
+        id
+      operationId: getConDesignItem
+      parameters:
+      - name: id
+        in: query
+        description: The ID of the required connection design item
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/ConDesignItemId'
+      responses:
+        "200":
+          description: Information about the connection design item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConDesignItem'
+        "401":
+          description: Unauthorized user
+        "404":
+          description: The specified resource was not found
+    post:
+      tags:
+      - Connection-Design-Item
+      summary: Create or modify the connection design item
+      description: Create or modify the connection design item and return the updated
+        instance from the database
+      operationId: postConDesignItem
+      requestBody:
+        $ref: '#/components/requestBodies/ConDesignItemBody'
+      responses:
+        "200":
+          description: Information about modified connection design item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConDesignItem'
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized user
+    delete:
+      tags:
+      - Connection-Design-Item
+      summary: Delete the connection design item
+      description: Delete the single design item which is given by its unique id
+      operationId: deleteConDesignItem
+      parameters:
+      - name: id
+        in: query
+        description: The ID of the required connection design item
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/ConDesignItemId'
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized user
+        "404":
+          description: The specified resource was not found
+components:
+  schemas:
+    UserRole:
+      type: string
+      description: role of the user
+      enum:
+      - engineer
+      - lead-engineer
+      - is-administrator
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the user
+        role:
+          $ref: '#/components/schemas/UserRole'
+      description: information about the user
+    ConDesignSetId:
+      type: string
+      description: The unique identifier of the connection design set
+      format: uuid
+    ConDesignItemId:
+      type: string
+      description: The unique identifier of the connection design item
+      format: uuid
+    ConDesignSet:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ConDesignSetId'
+        name:
+          type: string
+          description: name of the dataset
+        description:
+          type: string
+          description: user friendly description of the connection design set
+        owner:
+          $ref: '#/components/schemas/UserRole'
+      description: information about the connection design set (a group of connection
+        design items)
+    ConDesignItem:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ConDesignItemId'
+        name:
+          type: string
+          description: name of the dataset
+        description:
+          type: string
+          description: user friendly description of the connection design item
+        version:
+          type: string
+          description: version of the miner which created this connection design item
+      description: Connection design item
+    ConnectionPublisingMetaData:
+      type: object
+      properties:
+        connection-id:
+          type: string
+          description: The id of the published connection in the ideacon project
+          format: uuid
+        name:
+          type: string
+          description: The name of the new connection design item
+      description: Additional meta data about a connection which an user wants to
+        publish to a connection design set
+  responses:
+    BadRequest:
+      description: Bad Request
+    Unauthorized:
+      description: Unauthorized user
+    NotFound:
+      description: The specified resource was not found
+    InternalError:
+      description: Internal Server Error
+  parameters:
+    DesignSetIdParam:
+      name: id
+      in: query
+      description: The ID of the required connection design set
+      required: true
+      style: form
+      explode: true
+      schema:
+        $ref: '#/components/schemas/ConDesignSetId'
+    DesignItemIdParam:
+      name: id
+      in: query
+      description: The ID of the required connection design item
+      required: true
+      style: form
+      explode: true
+      schema:
+        $ref: '#/components/schemas/ConDesignItemId'
+  requestBodies:
+    ConDesignSetBody:
+      description: An object containing connection design set information
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConDesignSet'
+      required: true
+    ConDesignItemBody:
+      description: An object containing connection design item information
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConDesignItem'
+      required: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
