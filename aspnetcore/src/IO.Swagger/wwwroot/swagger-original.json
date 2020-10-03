@@ -378,12 +378,42 @@
         "properties" : {
           "id" : {
             "$ref" : "#/components/schemas/ConDesignItemId"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "name of the dataset"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "user friendly description of the connection design item"
+          },
+          "version" : {
+            "type" : "string",
+            "description" : "version of the miner which created this connection design item"
           }
         },
-        "description" : "information",
+        "description" : "Connection design item",
         "example" : {
-          "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+          "name" : "name",
+          "description" : "description",
+          "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91",
+          "version" : "version"
         }
+      },
+      "ConnectionPublisingMetaData" : {
+        "type" : "object",
+        "properties" : {
+          "connection-id" : {
+            "type" : "string",
+            "description" : "The id of the published connection in the ideacon project",
+            "format" : "uuid"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "The name of the new connection design item"
+          }
+        },
+        "description" : "Additional meta data about a connection which an user wants to publish to a connection design set"
       }
     },
     "responses" : {

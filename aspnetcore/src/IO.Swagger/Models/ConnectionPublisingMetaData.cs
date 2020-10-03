@@ -21,37 +21,24 @@ using Newtonsoft.Json;
 namespace IO.Swagger.Models
 { 
     /// <summary>
-    /// Connection design item
+    /// Additional meta data about a connection which an user wants to publish to a connection design set
     /// </summary>
     [DataContract]
-    public partial class ConDesignItem : IEquatable<ConDesignItem>
+    public partial class ConnectionPublisingMetaData : IEquatable<ConnectionPublisingMetaData>
     { 
         /// <summary>
-        /// Gets or Sets Id
+        /// The id of the published connection in the ideacon project
         /// </summary>
-        [DataMember(Name="id")]
-        public ConDesignItemId Id { get; set; }
+        /// <value>The id of the published connection in the ideacon project</value>
+        [DataMember(Name="connection-id")]
+        public Guid? ConnectionId { get; set; }
 
         /// <summary>
-        /// name of the dataset
+        /// The name of the new connection design item
         /// </summary>
-        /// <value>name of the dataset</value>
+        /// <value>The name of the new connection design item</value>
         [DataMember(Name="name")]
         public string Name { get; set; }
-
-        /// <summary>
-        /// user friendly description of the connection design item
-        /// </summary>
-        /// <value>user friendly description of the connection design item</value>
-        [DataMember(Name="description")]
-        public string Description { get; set; }
-
-        /// <summary>
-        /// version of the miner which created this connection design item
-        /// </summary>
-        /// <value>version of the miner which created this connection design item</value>
-        [DataMember(Name="version")]
-        public string Version { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,11 +47,9 @@ namespace IO.Swagger.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class ConDesignItem {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("class ConnectionPublisingMetaData {\n");
+            sb.Append("  ConnectionId: ").Append(ConnectionId).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Description: ").Append(Description).Append("\n");
-            sb.Append("  Version: ").Append(Version).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -87,39 +72,29 @@ namespace IO.Swagger.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((ConDesignItem)obj);
+            return obj.GetType() == GetType() && Equals((ConnectionPublisingMetaData)obj);
         }
 
         /// <summary>
-        /// Returns true if ConDesignItem instances are equal
+        /// Returns true if ConnectionPublisingMetaData instances are equal
         /// </summary>
-        /// <param name="other">Instance of ConDesignItem to be compared</param>
+        /// <param name="other">Instance of ConnectionPublisingMetaData to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ConDesignItem other)
+        public bool Equals(ConnectionPublisingMetaData other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    Id == other.Id ||
-                    Id != null &&
-                    Id.Equals(other.Id)
+                    ConnectionId == other.ConnectionId ||
+                    ConnectionId != null &&
+                    ConnectionId.Equals(other.ConnectionId)
                 ) && 
                 (
                     Name == other.Name ||
                     Name != null &&
                     Name.Equals(other.Name)
-                ) && 
-                (
-                    Description == other.Description ||
-                    Description != null &&
-                    Description.Equals(other.Description)
-                ) && 
-                (
-                    Version == other.Version ||
-                    Version != null &&
-                    Version.Equals(other.Version)
                 );
         }
 
@@ -133,14 +108,10 @@ namespace IO.Swagger.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Id != null)
-                    hashCode = hashCode * 59 + Id.GetHashCode();
+                    if (ConnectionId != null)
+                    hashCode = hashCode * 59 + ConnectionId.GetHashCode();
                     if (Name != null)
                     hashCode = hashCode * 59 + Name.GetHashCode();
-                    if (Description != null)
-                    hashCode = hashCode * 59 + Description.GetHashCode();
-                    if (Version != null)
-                    hashCode = hashCode * 59 + Version.GetHashCode();
                 return hashCode;
             }
         }
@@ -148,12 +119,12 @@ namespace IO.Swagger.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(ConDesignItem left, ConDesignItem right)
+        public static bool operator ==(ConnectionPublisingMetaData left, ConnectionPublisingMetaData right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(ConDesignItem left, ConDesignItem right)
+        public static bool operator !=(ConnectionPublisingMetaData left, ConnectionPublisingMetaData right)
         {
             return !Equals(left, right);
         }

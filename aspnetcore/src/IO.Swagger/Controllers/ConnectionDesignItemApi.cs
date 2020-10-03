@@ -79,7 +79,7 @@ namespace IO.Swagger.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
             string exampleJson = null;
-            exampleJson = "{\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}";
+            exampleJson = "{\n  \"name\" : \"name\",\n  \"description\" : \"description\",\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"version\" : \"version\"\n}";
             
                         var example = exampleJson != null
                         ? JsonConvert.DeserializeObject<ConDesignItem>(exampleJson)
@@ -111,7 +111,7 @@ namespace IO.Swagger.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
             string exampleJson = null;
-            exampleJson = "[ {\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}, {\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n} ]";
+            exampleJson = "[ {\n  \"name\" : \"name\",\n  \"description\" : \"description\",\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"version\" : \"version\"\n}, {\n  \"name\" : \"name\",\n  \"description\" : \"description\",\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"version\" : \"version\"\n} ]";
             
                         var example = exampleJson != null
                         ? JsonConvert.DeserializeObject<List<ConDesignItem>>(exampleJson)
@@ -144,7 +144,7 @@ namespace IO.Swagger.Controllers
             //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(401);
             string exampleJson = null;
-            exampleJson = "{\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}";
+            exampleJson = "{\n  \"name\" : \"name\",\n  \"description\" : \"description\",\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"version\" : \"version\"\n}";
             
                         var example = exampleJson != null
                         ? JsonConvert.DeserializeObject<ConDesignItem>(exampleJson)
