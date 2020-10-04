@@ -151,15 +151,29 @@ paths:
         "404":
           description: The specified resource was not found
   /project-publish:
-    get:
+    post:
       tags:
       - Connection-Design-Item
       summary: Publish connection design items
       description: Publish selected connection design items from Idea connection project
         to the given connection design set
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/body'
       responses:
         "200":
-          description: OK
+          description: Identifier of the publiblish work item. It can be used for
+            observing the status of publishing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublishWorkItem'
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized user
   /design-item:
     get:
       tags:
@@ -286,6 +300,15 @@ components:
           type: string
           description: version of the miner which created this connection design item
       description: Connection design item
+    PublishWorkItem:
+      type: object
+      properties:
+        job-id:
+          type: string
+          description: The unique identifier of the publishing job
+          format: uuid
+      description: Information about work item for the given publishing job. User
+        can use this data for observing the status of this job.
     ConnectionPublisingMetaData:
       type: object
       properties:
@@ -296,8 +319,19 @@ components:
         name:
           type: string
           description: The name of the new connection design item
-      description: Additional meta data about a connection which an user wants to
-        publish to a connection design set
+      description: Additional meta data about the connection which an user wants to
+        publish to the connection design set
+    body:
+      type: object
+      properties:
+        publishing-items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectionPublisingMetaData'
+        conn-project:
+          type: string
+          description: Idea connection project containing connections for publishing
+          format: binary
   responses:
     BadRequest:
       description: Bad Request
