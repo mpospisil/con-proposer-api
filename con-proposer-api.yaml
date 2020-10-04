@@ -93,7 +93,17 @@ components:
           type: string
           description: version of the miner which created this connection design item                  
 
-    ConnectionPublisingMetaData:
+    PublishWorkItem:          # Can be referenced as '#/components/schemas/PublishWorkItem'
+      type: object
+      description: Information about work item for the given publishing job. User can use this data for observing the status of this job.
+      properties:
+        job-id:
+          type: string
+          format: uuid
+          description: The unique identifier of the publishing job
+   
+
+    ConnectionPublisingMetaData:     # Can be referenced as '#/components/schemas/ConnectionPublisingMetaData'
       type: object
       description: Additional meta data about the connection which an user wants to publish to the connection design set
       properties:
@@ -293,14 +303,37 @@ paths:
 
 
   /project-publish:
-    get:
+    post:
       tags:
         - Connection-Design-Item     
       summary: Publish connection design items
       description: Publish selected connection design items from Idea connection project to the given connection design set
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                publishing-items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ConnectionPublisingMetaData'
+                conn-project:
+                  description: Idea connection project containing connections for publishing
+                  type: string
+                  format: binary
+
       responses:
         '200':
-          description: OK 
+          description: Identifier of the publiblish work item. It can be used for observing the status of publishing.
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/PublishWorkItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /design-item:
     get:
@@ -360,6 +393,5 @@ paths:
                 $ref : '#/components/schemas/ConDesignItem' 
         '400':
           $ref: '#/components/responses/BadRequest'
-
         '401':
           $ref: '#/components/responses/Unauthorized'
